@@ -158,7 +158,26 @@ contract QeyStrokeTradable is
         delete creators[_parcelId3];
     }
 
+    function burn4(address _from, uint256 _parcelId4) public {
+        require(burnEnabled, "No burning is enabled.");
+        require(_parcelId4 > 3939);
+        require(creators[_parcelId4] == _from);
 
+        _burn(_from, _parcelId4, 1);
+
+        delete creators[_parcelId4];
+    }
+
+    function genesisMint(
+    address _to,
+    uint256 _id,
+    uint8 genesisType,
+    bytes memory _data
+    ) external payable {
+        require(msg.value >= platformFee, "Insufficient funds to mint.");
+        _mint(_to, _id, 1, _data);
+        catogories[_id] = genesisType;
+    }
 
     function getCurrentTokenID() public view returns (uint256) {
         return _currentTokenID;
